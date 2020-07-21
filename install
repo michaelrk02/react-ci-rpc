@@ -1,7 +1,6 @@
 #!/bin/bash
-echo 'Installing React-CI RPC ...'
+echo "React-CI RPC / installing to $1 ..."
 cd root
 cp -rv . $1
 cd ..
-echo 'Done'
 
