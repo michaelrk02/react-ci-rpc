@@ -1,0 +1,7 @@
+#!/bin/bash
+echo 'Installing React-CI RPC ...'
+cd root
+cp -rv . $1
+cd ..
+echo 'Done'
+
