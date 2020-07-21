@@ -31,6 +31,7 @@ class Auth {
                 }
             } else {
                 $this->CI->rpc->error('invalid token signature', 401);
+                exit();
             }
         } else {
             $this->CI->rpc->error('you must login first to access this resource', 401);
