@@ -2,8 +2,9 @@
 
 class Auth {
 
+    public $cookie = '_$auth_token';
+
     private $CI;
-    private $cookie = '_$auth_token';
 
     public function __construct() {
         $this->CI =& get_instance();
@@ -15,7 +16,7 @@ class Auth {
         $token = isset($this->CI->rpc->cookie[$this->cookie]) ? $this->CI->rpc->cookie[$this->cookie] : NULL;
         if (isset($token)) {
             $token = explode(':', $token);
-            if (sha1($token[0].'$'.$secret) === $token[1]) {
+            if (hash_hmac('sha256', $token[0], $secret) === $token[1]) {
                 $payload = json_decode(base64_decode($token[0]), TRUE);
                 if (!empty($payload['__t'])) {
                     if (time() <= $payload['__t'] + $expires) {
@@ -59,7 +60,7 @@ class Auth {
             $payload['__t'] = time();
         }
         $token[0] = base64_encode(json_encode($payload));
-        $token[1] = sha1($token[0].'$'.$secret);
+        $token[1] = hash_hmac('sha256', $token[0], $secret);
         $token = implode(':', $token);
         $this->CI->rpc->cookie[$this->cookie] = $token;
     }
